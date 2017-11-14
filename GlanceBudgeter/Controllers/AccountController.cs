@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GlanceBudgeter.Models;
 using System.IO;
+using GlanceBudgeter.Models.Helpers;
 
 namespace GlanceBudgeter.Controllers
 {
@@ -435,7 +436,6 @@ namespace GlanceBudgeter.Controllers
             return View();
         }
 
-
         //GET: /Account/CreateHouseholdMember
         public ActionResult CreateHouseholdMember()
         {
@@ -450,13 +450,14 @@ namespace GlanceBudgeter.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentUserHId = User.Identity.GetHouseholdId();
+                var currentUserHId = User.Identity.GetHouseHoldId();
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                   
                     HouseholdId = currentUserHId
                 };
                 var result = await UserManager.CreateAsync(user);
@@ -487,11 +488,14 @@ namespace GlanceBudgeter.Controllers
             string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
             //relative URL vs absolute URL
             var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-            await UserManager.SendEmailAsync(user.Id, "Join Me On SimpleBudget", body: "I've invited you to join my household. To get started, click <a href=\"" + callbackUrl + "\">here</a>");
+            await UserManager.SendEmailAsync(user.Id, "Don't be homeless!", body: "You have been invited to join a Household! To join, click <a href=\"" + callbackUrl + "\">here</a> and your journey will begin!");
         }
 
-
-
+        // GET: CreateHouseholdMemberConfirmation
+        public ActionResult CreateHouseholdMemberConfirmation()
+        {
+            return View();
+        }
 
 
         protected override void Dispose(bool disposing)

@@ -53,12 +53,21 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -216,6 +225,9 @@
     <Compile Include="Models\CodeFirst\TransactionAttachment.cs" />
     <Compile Include="Models\CodeFirst\TransactionCategory.cs" />
     <Compile Include="Models\EmailModel.cs" />
+    <Compile Include="Models\Helpers\AuthorizeHouseholdRequired.cs" />
+    <Compile Include="Models\Helpers\Extensions.cs" />
+    <Compile Include="Models\Helpers\RefreshAuthenticationHelper.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Universal.cs" />
@@ -1819,6 +1831,7 @@
     <Content Include="assets\plugins\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="assets\plugins\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="assets\plugins\toastr\toastr.js.map" />
+    <Content Include="private.config" />
     <None Include="Properties\PublishProfiles\glance-budgeter - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\glance-budgeter - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1892,6 +1905,7 @@
     <Content Include="Views\Budgets\Edit.cshtml" />
     <Content Include="Views\Budgets\Index.cshtml" />
     <Content Include="Views\Manage\UpdateInformation.cshtml" />
+    <Content Include="Views\Home\JoinHousehold.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

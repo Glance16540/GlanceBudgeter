@@ -13,9 +13,10 @@ namespace GlanceBudgeter.Models.CodeFirst
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public string OwnerId { get; set; }
-        public string Password { get; set; }
+
 
         public virtual ICollection<ApplicationUser> Members { get; set; }
-
+        public virtual ICollection<Transaction>Transactions { get; set; }
+        public virtual ICollection<Accounts> Account { get; set; }
     }
 }

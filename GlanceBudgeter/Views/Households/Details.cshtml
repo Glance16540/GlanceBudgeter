@@ -50,12 +50,11 @@
             @Html.DisplayFor(model => model.OwnerId)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Password)
+            @foreach(var user in Model.Members)
+            {
+                @user.FullName;
+            }
         </dd>
 
     </dl>

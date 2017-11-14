@@ -55,7 +55,15 @@ namespace GlanceBudgeter.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.transaction.Add(transaction);
+
+                //if (transaction.expense == true)
+                //{
+                //    transaction.Accounts.Balance = 
+                //}
+
+
+
+                    db.transaction.Add(transaction);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

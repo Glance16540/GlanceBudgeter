@@ -15,8 +15,16 @@ namespace GlanceBudgeter.Models
         public string LastName { get; set; }
         public string ProfilePic { get; set; }
         public string TimeZone { get; set; }
-     
-    
+
+        public int? HouseholdId { get; set; }
+        public virtual Household Household { get; set; }
+
+
+       
+
+
+
+
 
         public string FullName
         {
@@ -50,6 +58,10 @@ namespace GlanceBudgeter.Models
             return userIdentity;
         }
     }
+
+
+
+
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

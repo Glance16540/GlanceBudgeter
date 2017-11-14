@@ -8,19 +8,30 @@ using System.Web;
 using System.Web.Mvc;
 using GlanceBudgeter.Models;
 using GlanceBudgeter.Models.CodeFirst;
+using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using GlanceBudgeter.Models.Helpers;
 
 namespace GlanceBudgeter.Controllers
 {
     [Authorize]
     public class HouseholdsController : Universal
     {
-        
 
-        // GET: Households
+
+
+        // GET: HouseHolds
         public ActionResult Index()
         {
-            return View(db.household.ToList());
+            var user = db.Users.Find(User.Identity.GetUserId());
+            if (user.HouseholdId != null)
+            {
+                var houseHold = db.household.Find(user.HouseholdId);
+                return View(houseHold);
+            }
+            return RedirectToAction("CreateJoinHouseHold", "Home");
         }
+
 
         // GET: Households/Details/5
         public ActionResult Details(int? id)
@@ -48,10 +59,15 @@ namespace GlanceBudgeter.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Created,Updated,OwnerId,Password")] Household household)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,OwnerId,")] Household household)
         {
             if (ModelState.IsValid)
             {
+                var user = db.Users.Find(User.Identity.GetUserId());
+                household.OwnerId = User.Identity.GetUserId();
+                user.HouseholdId = household.Id;
+                household.Created = DateTime.Now;
+
                 db.household.Add(household);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -74,6 +90,34 @@ namespace GlanceBudgeter.Controllers
             }
             return View(household);
         }
+
+        // GET: HouseHolds/OneHouseWarning
+        public ActionResult OneHouseWarning()
+        {
+            return View();
+        }
+
+        // POST: HouseHolds/SurenderHouseId
+        public async Task<ActionResult> SurrenderHouseId(int? id)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = db.Users.Find(User.Identity.GetUserId());
+                Household houseHold = db.household.Find(id);
+                user.HouseholdId = null;
+                //if (houseHold.Members.Count == 0)
+                //{
+                //    db.HouseHold.Remove(houseHold);
+                //}
+                db.SaveChanges();
+
+                await HttpContext.RefreshAuthentication(db.Users.Find(User.Identity.GetUserId()));
+                return RedirectToAction("CreateJoinHouseHold", "Home");
+            }
+            return View();
+        }
+
+
 
         // POST: Households/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -111,7 +155,11 @@ namespace GlanceBudgeter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
+            var user = db.Users.Find(User.Identity.GetUserId());
             Household household = db.household.Find(id);
+            user.HouseholdId = null;
+            
             db.household.Remove(household);
             db.SaveChanges();
             return RedirectToAction("Index");

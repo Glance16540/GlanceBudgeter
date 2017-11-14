@@ -20,8 +20,9 @@ namespace GlanceBudgeter.Controllers
         // GET: Accounts
         public ActionResult Index()
         {
-            var accounts = db.Account.Include(a => a.AccountType).Include(a => a.Owner);
-            return View(accounts.ToList());
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var accounts = db.Account.Where(u => u.HouseholdId == user.HouseholdId);
+            return View(accounts.OrderByDescending(a => a.Owner.FirstName).ToList());
         }
 
         // GET: Accounts/Details/5
@@ -53,7 +54,7 @@ namespace GlanceBudgeter.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Opened,Closed,AccountNumber,OwnerId,AccountTypeId")] Accounts accounts)
+        public ActionResult Create([Bind(Include = "Id,Name,Balance,OwnerId,AccountTypeId,HouseholdId")] Accounts accounts)
         {
             ViewBag.AccountTypeId = new SelectList(db.Accounttype, "Id", "Name", accounts.AccountTypeId);
             ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName", accounts.OwnerId);
@@ -61,8 +62,10 @@ namespace GlanceBudgeter.Controllers
         
             if (ModelState.IsValid)
             { 
-               var user = User.Identity.GetUserId();
-                accounts.OwnerId = user;
+               var user = db.Users.Find( User.Identity.GetUserId());
+                accounts.OwnerId = user.Id;
+                accounts.Opened = DateTime.UtcNow;
+                accounts.HouseholdId = user.HouseholdId;
                 db.Account.Add(accounts);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -93,7 +96,7 @@ namespace GlanceBudgeter.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Opened,Closed,AccountNumber,OwnerId,AccountTypeId")] Accounts accounts)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Opened,Closed,AccountNumber,OwnerId,AccountTypeId,HouseholdId")] Accounts accounts)
         {
             if (ModelState.IsValid)
             {

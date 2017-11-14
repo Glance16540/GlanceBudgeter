@@ -22,6 +22,9 @@ namespace GlanceBudgeter.Models.CodeFirst
         [Required]
         public int CategoryId { get; set; }
 
+        public bool expense { get; set; }
+      
+
         public virtual Expense Expense { get; set; }
         public virtual TransactionCategory Category { get; set; }
         public virtual Accounts Accounts { get; set; }

@@ -121,4 +121,20 @@ namespace GlanceBudgeter.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class CreateMemberViewModel
+    {
+        [Required]
+        [Display(Name ="Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name= "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name ="Last Name")]
+        public string LastName { get; set; }
+    }
+
 }

@@ -15,11 +15,11 @@ namespace GlanceBudgeter.Models.CodeFirst
         public DateTime Opened { get; set; }
         public DateTime? Closed { get; set; }
         [Required]
-        public string AccountNumber { get; set; }
-        [Required]
         public string OwnerId { get; set; }
         [Required]
         public int AccountTypeId { get; set; }
+        public int? HouseholdId { get; set; }
+
 
         public virtual AccountType AccountType { get; set; }
         public virtual Household HouseHold { get; set; }
