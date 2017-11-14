@@ -51,15 +51,15 @@ namespace GlanceBudgeter.Controllers
             {
                 try
                 {
-                    var body = "<p>Email From: <bold>{0}</bold>({ 1})</ p >< p > Message:</ p >< p >{ 2}</ p > "; var from = "MyPortfolio<antonio@raynor.com>";
+                    var body = "<p>Email From: <bold>{0}</bold>({1})</p><p>Message: </p><p>{2}</p>";
+                    var from = "MyPortfolio<antonio@raynor.com>";
                     model.Body = "This is a message from your portfolio site. The name and the email of the contacting person is above.";
-                var email = new MailMessage(from,ConfigurationManager.AppSettings["emailto"])
-
-                {
-                  Subject = "Portfolio Contact Email",
-                  Body = string.Format(body, model.FromName, model.FromEmail,model.Body),
-                  IsBodyHtml = true
-                };
+                    var email = new MailMessage(from, ConfigurationManager.AppSettings["emailto"])
+                    {
+                        Subject = "Portfolio Contact Email",
+                        Body = string.Format(body, model.FromName, model.FromEmail, model.Body),
+                        IsBodyHtml = true
+                    };
                     var svc = new PersonalEmail();
                     await svc.SendAsync(email);
                     return RedirectToAction("Sent");

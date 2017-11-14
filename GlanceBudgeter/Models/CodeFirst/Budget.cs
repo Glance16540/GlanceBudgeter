@@ -16,6 +16,7 @@ namespace GlanceBudgeter.Models.CodeFirst
         public int CategoryId { get; set; }
         public string Description { get; set; }
         public string OwnerId { get; set; }
+        public int HouseholdId { get; set; }
 
         public virtual BudgetCategory Category { get; set; }
         public virtual ApplicationUser Owner { get; set; }

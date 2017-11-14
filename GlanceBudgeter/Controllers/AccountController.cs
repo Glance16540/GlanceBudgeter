@@ -450,15 +450,15 @@ namespace GlanceBudgeter.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentUserHId = User.Identity.GetHouseHoldId();
+                var currentUserHId = db.Users.Find(User.Identity.GetUserId());
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                   
-                    HouseholdId = currentUserHId
+
+                    HouseholdId = currentUserHId.HouseholdId
                 };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -488,7 +488,7 @@ namespace GlanceBudgeter.Controllers
             string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
             //relative URL vs absolute URL
             var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-            await UserManager.SendEmailAsync(user.Id, "Don't be homeless!", body: "You have been invited to join a Household! To join, click <a href=\"" + callbackUrl + "\">here</a> and your journey will begin!");
+            await UserManager.SendEmailAsync(user.Id, "Join Us !", body: "You have been invited to join a Household! To join, click <a href=\"" + callbackUrl + "\">here</a> and your journey will begin!");
         }
 
         // GET: CreateHouseholdMemberConfirmation

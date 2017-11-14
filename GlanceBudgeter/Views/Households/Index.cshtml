@@ -4,11 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2> @Model.Name HouseHold</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 
 @using Microsoft.AspNet.Identity
 <!-- DataTables -->
@@ -73,6 +71,10 @@ else
                     @members.FullName
                     <br />
                 }
+                <a class="btn btn-default" href="@Url.Action("CreateHouseholdMember", "Account")">Add new Member</a>
+               
+                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#leaveHouse">Leave House-Hold</a>
+
 
             </div>
         </div>
@@ -95,7 +97,7 @@ else
                         </ul>
                     </div>
 
-                    <h4 class="header-title m-t-0 m-b-30">Default Example</h4>
+                    <h4 class="header-title m-t-0 m-b-30"></h4>
 
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>

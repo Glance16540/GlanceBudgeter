@@ -56,6 +56,9 @@ namespace GlanceBudgeter.Controllers
             if (ModelState.IsValid)
             {
 
+
+               
+
                 //if (transaction.expense == true)
                 //{
                 //    transaction.Accounts.Balance = 

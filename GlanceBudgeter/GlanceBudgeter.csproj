@@ -1831,7 +1831,9 @@
     <Content Include="assets\plugins\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="assets\plugins\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="assets\plugins\toastr\toastr.js.map" />
-    <Content Include="private.config" />
+    <Content Include="private.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\glance-budgeter - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\glance-budgeter - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1906,6 +1908,8 @@
     <Content Include="Views\Budgets\Index.cshtml" />
     <Content Include="Views\Manage\UpdateInformation.cshtml" />
     <Content Include="Views\Home\JoinHousehold.cshtml" />
+    <Content Include="Views\Account\CreateHouseholdMember.cshtml" />
+    <Content Include="Views\Account\CreateHouseholdMemberConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

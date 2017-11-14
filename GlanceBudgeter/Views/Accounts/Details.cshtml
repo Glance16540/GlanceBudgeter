@@ -1,5 +1,17 @@
 ﻿@model GlanceBudgeter.Models.CodeFirst.Accounts
 
+<link href="~/assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/plugins/datatables/buttons.bootstrap.min.css" rel="stylesheet" />
+
+<link href="~/assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/css/components.css" rel="stylesheet" type="text/css" />
+
+
+
+
 @{
     ViewBag.Title = "Details";
 }
@@ -34,8 +46,8 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
-       
-       
+
+
 
         <dt>
             @Html.DisplayNameFor(model => model.Opened)
@@ -53,7 +65,7 @@
             @Html.DisplayFor(model => model.Closed)
         </dd>
 
-       
+
 
     </dl>
 </div>
@@ -61,3 +73,103 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="card-box table-responsive">
+            <div class="dropdown pull-right">
+                <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+            </div>
+
+            <h4 class="header-title m-t-0 m-b-30">Transactions For This Account</h4>
+
+            <table id="datatable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Created</th>
+                        <th>Account </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var accone in Model.Transactions.Where(t=>t.AuthorId == t.Accounts.OwnerId))
+                     {
+                        <tr>
+                            <td>@accone.Name</td>
+                            <td>@accone.Description</td>
+                            <td>@accone.Category.Name</td>
+                            <td>@accone.Amount</td>
+                            <td>@accone.Created</td>
+                            <td>@accone.Accounts.Name</td>
+                        </tr>
+
+
+
+
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+        </div>
+</div>
+
+
+@section scripts
+ {
+
+    <script>
+            var resizefunc = [];
+    </script>
+
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/assets/plugins/datatables/jszip.min.js"></script>
+    <script src="~/assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/assets/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/assets/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/assets/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~assets/pages/datatables.init.js"></script>
+
+    <script type="text/javascript">
+         $(document).ready(function () {
+             $('#datatable').dataTable();
+             $('#datatable-keytable').DataTable({ keys: true });
+             $('#datatable-responsive').DataTable();
+             $('#datatable-scroller').DataTable({ ajax: "assets/plugins/datatables/json/scroller-demo.json", deferRender: true, scrollY: 380, scrollCollapse: true, scroller: true });
+             var table = $('#datatable-fixed-header').DataTable({ fixedHeader: true });
+         });
+         TableManageButtons.init();
+
+    </script>
+    <script>
+
+         $(function () {
+             $('#responsiveTableone').DataTable({
+                 responsive: true,
+                 'iDisplayLength': 5,
+             });
+         })
+
+
+    </script>
+
+}
