@@ -28,72 +28,26 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
-                <h4>My Accounts</h4>
-
-                <table class="table">
-                    <tr>
-
-                        <th>
-                            Account Type
-                        </th>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Balance
-                        </th>
-                        <th>
-                            Opened
-                        </th>
-                     
-
-                        <th></th>
-                    </tr>
-
-                    @foreach (var account in Model.Account.Where(u => u.HouseholdId == u.HouseHold.Id))
-                    {
-
-
-
-
-
-                        <tr>
-                            <td>
-                                @account.AccountType.Name
-                            </td>
-                            <td>
-                                @account.Name
-                            </td>
-
-                            <td>
-                                @account.Balance
-                            </td>
-                            <td>
-                                @account.Opened
-                            </td>
-                          
-
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = Model.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
-                            </td>
-                        </tr>
-
-
-
-
-                    }
-                </table>
+            <div class="col-lg-6">
+                <div class="card-box">
+                    <div class="dropdown pull-right">
+                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
 
                     </div>
+                    <h4 class="header-title m-t-0 m-b-30">Pie Chart</h4>
+
+                    <canvas id="pie" height="300"></canvas>
+
+                </div>
+            </div>
+
+           
 
 
-
-
-
-            <div class="col-xs-6">
+            <div class="col-lg-6">
                 <h4>HouseHold Members</h4>
                 @foreach (var members in Model.Members)
                 {
@@ -150,7 +104,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach (var accone in Model.Transactions.Where(a => a.CategoryId == 3))
+                                    @foreach (var accone in Model.Transactions.Where(a => a.CategoryId == 3).Where(a => a.AuthorId == User.Identity.GetUserId()))
                                     {
                                         <tr>
                                             <td>@accone.Name</td>
@@ -224,6 +178,7 @@
                            
                            
                         </tbody>
+                        @*<div class=" pull-right">@Viewbag.Balance</div>*@
                     </table>
                 </div>
                 <!-- end col -->
@@ -286,8 +241,16 @@
 <script src="~/assets/plugins/datatables/responsive.bootstrap.min.js"></script>
 <script src="~/assets/plugins/datatables/dataTables.scroller.min.js"></script>
 
+<script src="~/assets/js/jquery.core.js"></script>
+<script src="~/assets/js/jquery.app.js"></script>
+           <!-- Chart JS -->
+
+
+
+
+
 <!-- Datatable init js -->
-<script src="~assets/pages/datatables.init.js"></script>
+<script src="~/assets/pages/datatables.init.js"></script>
 
 <script type="text/javascript">
          $(document).ready(function () {

@@ -39,24 +39,65 @@ else
             <div class="col-xs-6">
                 <h4>My Accounts</h4>
 
+                <table class="table">
+                    <tr>
 
-                @*{
-                       <a href="@Url.Action("Create","Accounts")" ><p>Please Create An Account!</p></a>
+                        <th>
+                            Account Type
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Balance
+                        </th>
+                        <th>
+                            Opened
+                        </th>
+
+
+                        <th></th>
+                    </tr>
+
+                    @foreach (var account in Model.Account.Where(u => u.HouseholdId == u.HouseHold.Id))
+                    {
+
+
+
+                        <tr>
+                            <td>
+                                @account.AccountType.Name
+                            </td>
+                            <td>
+                                @account.Name
+                            </td>
+
+                            <td>
+                                @account.Balance
+                            </td>
+                            <td>
+                                @account.Opened
+                            </td>
+
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = Model.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+                            </td>
+                        </tr>
+
+
+
+
                     }
-                    else
-                    {*@
-
-                @foreach (var account in Model.Account.Where(u => u.HouseholdId == u.HouseHold.Id))
-                {
-                    <div>@account.Name <span>@account.AccountType </span><span> @account.Balance</span></div>
-
-
-
-
-
-                }
+                </table>
 
             </div>
+
+
+
+
 
 
 
@@ -232,8 +273,8 @@ else
 
 @section scripts
  {
-
-
+         <!-- Dashboard init -->
+<script src="~/assets/pages/jquery.dashboard.js"></script>
 
     <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/assets/plugins/datatables/dataTables.bootstrap.js"></script>
