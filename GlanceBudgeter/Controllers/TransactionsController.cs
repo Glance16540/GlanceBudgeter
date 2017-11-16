@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GlanceBudgeter.Models;
 using GlanceBudgeter.Models.CodeFirst;
+using Microsoft.AspNet.Identity;
 
 namespace GlanceBudgeter.Controllers
 {
@@ -41,8 +42,12 @@ namespace GlanceBudgeter.Controllers
         // GET: Transactions/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName");
+            Transaction transaction = new Transaction();
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+            ViewBag.AuthorId = new SelectList(db.Users.Where(u=>u.Household.Id == user.HouseholdId), "Id", "FirstName");
             ViewBag.CategoryId = new SelectList(db.transactioncategory, "Id", "Name");
+            ViewBag.AccountsId = new SelectList(db.Account.Where(a => a.HouseholdId == user.HouseholdId), "Id", "Name");
             return View();
         }
 
@@ -51,28 +56,44 @@ namespace GlanceBudgeter.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Amount,Created,ReconciledAmount,Reconciled,AuthorId,CategoryId")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,Amount,Created,ReconciledAmount,Reconciled,AuthorId,CategoryId,AccountsId")] Transaction transaction)
         {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            Accounts accounts = db.Account.Find(transaction.AccountsId);
+
+            ViewBag.CategoryId = new SelectList(db.transactioncategory, "Id", "Name");
+            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.AccountsId = new SelectList(db.Account, "Id", "Name",transaction.AccountsId);
             if (ModelState.IsValid)
             {
+              
+                //  var accountid = db.Account.Find(account.Id == user.)
+                //transaction.AccountsId = accoun
 
-
-               
-
-                //if (transaction.expense == true)
+                
+                //if (transaction.CategoryId == 2)
                 //{
-                //    transaction.Accounts.Balance = 
+                //    decimal transAmt = transaction.Amount * -1;
+                //    accounts.Balance = accounts.Balance + transAmt;
+                //}
+                //if (transaction.CategoryId == 1)
+                //{
+                //    accounts.Balance = accounts.Balance + transaction.Amount;
                 //}
 
 
+                //db.Entry(accounts).State = EntityState.Modified;
 
-                    db.transaction.Add(transaction);
+                transaction.Reconciled = false;
+                transaction.HouseholdId = user.HouseholdId.Value;
+                
+                transaction.Created = DateTime.UtcNow;
+                db.transaction.Add(transaction);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", transaction.AuthorId);
-            ViewBag.CategoryId = new SelectList(db.transactioncategory, "Id", "Name", transaction.CategoryId);
+           
             return View(transaction);
         }
 

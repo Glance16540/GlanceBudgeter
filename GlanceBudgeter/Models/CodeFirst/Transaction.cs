@@ -21,8 +21,10 @@ namespace GlanceBudgeter.Models.CodeFirst
         public string AuthorId { get; set; }
         [Required]
         public int CategoryId { get; set; }
-
-        public bool expense { get; set; }
+        [Required]
+        public int AccountsId { get; set; }
+        public int HouseholdId { get; set; }
+    
       
 
         public virtual Expense Expense { get; set; }

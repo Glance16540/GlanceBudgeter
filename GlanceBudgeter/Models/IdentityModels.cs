@@ -20,7 +20,8 @@ namespace GlanceBudgeter.Models
         public virtual Household Household { get; set; }
 
 
-       
+       
+
 
 
 

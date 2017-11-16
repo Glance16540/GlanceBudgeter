@@ -78,86 +78,127 @@ else
 
             </div>
         </div>
+
         <div class="row">
             <div class="col-xs-12">
-                <h4>Transactions</h4>
+               <hr />
 
 
-                <div class="card-box table-responsive">
-                    <div class="dropdown pull-right">
-                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                            <i class="zmdi zmdi-more-vert"></i>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
+
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active">
+                        <a href="#home1" role="tab" data-toggle="tab">Expense</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#profile1" role="tab" data-toggle="tab">Income</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="home1">
+                        <div class="card-box table-responsive">
+                            <div class="dropdown pull-right">
+                                <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="zmdi zmdi-more-vert"></i>
+                                </a>
+
+                            </div>
+
+                            <h4 class="header-title m-t-0 m-b-30">Expense Transactions</h4>
+
+                            <table id="datatable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                        <th>Created</th>
+                                        <th>Account </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var accone in Model.Transactions.Where(a => a.CategoryId == 3).Where(a => a.AuthorId == User.Identity.GetUserId()))
+                                    {
+                                        <tr>
+                                            <td>@accone.Name</td>
+                                            <td>@accone.Description</td>
+                                            <td>@accone.Category.Name</td>
+                                            <td>@accone.Amount</td>
+                                            <td>@accone.Created</td>
+                                            <td></td>
+                                        </tr>
+
+
+
+
+                                    }
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end col -->
+                        <!-- end row -->
                     </div>
 
-                    <h4 class="header-title m-t-0 m-b-30"></h4>
 
-                    <table id="datatable" class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
 
-                            <tr>
-                                <td>Lael Greer</td>
-                                <td>Systems Administrator</td>
-                                <td>London</td>
-                                <td>21</td>
-                                <td>2009/02/27</td>
-                                <td>$103,500</td>
-                            </tr>
-                            <tr>
-                                <td>Jonas Alexander</td>
-                                <td>Developer</td>
-                                <td>San Francisco</td>
-                                <td>30</td>
-                                <td>2010/07/14</td>
-                                <td>$86,500</td>
-                            </tr>
-                            <tr>
-                                <td>Shad Decker</td>
-                                <td>Regional Director</td>
-                                <td>Edinburgh</td>
-                                <td>51</td>
-                                <td>2008/11/13</td>
-                                <td>$183,000</td>
-                            </tr>
-                            <tr>
-                                <td>Michael Bruce</td>
-                                <td>Javascript Developer</td>
-                                <td>Singapore</td>
-                                <td>29</td>
-                                <td>2011/06/27</td>
-                                <td>$183,000</td>
-                            </tr>
-                            <tr>
-                                <td>Donna Snider</td>
-                                <td>Customer Support</td>
-                                <td>New York</td>
-                                <td>27</td>
-                                <td>2011/01/25</td>
-                                <td>$112,000</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+
+
+
+
+
+                    <div role="tabpanel" class="tab-pane fade" id="profile1">
+                        <div class="card-box table-responsive">
+                            <div class="dropdown pull-right">
+                                <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="zmdi zmdi-more-vert"></i>
+                                </a>
+
+                            </div>
+
+                            <h4 class="header-title m-t-0 m-b-30">Income/h4>
+
+                            <table id="responsiveTableone" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                        <th>Created</th>
+                                        <th>Account </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var expense in Model.Transactions.Where(a => a.CategoryId == 4).Where(a => a.AuthorId == User.Identity.GetUserId()))
+                                    {
+                                        <tr>
+                                            <td>@expense.Name</td>
+                                            <td>@expense.Description</td>
+                                            <td>@expense.Category.Name</td>
+                                            <td>@expense.Amount</td>
+                                            <td>@expense.Created</td>
+                                            <td></td>
+                                        </tr>
+
+
+                                    }
+                                   
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end col -->
+                        <!-- end row -->
+                    </div>
                 </div>
-                <!-- end col -->
-                <!-- end row -->
             </div>
         </div>
 
@@ -223,8 +264,17 @@ else
          TableManageButtons.init();
 
     </script>
+<script>
+
+         $(function () {
+             $('#responsiveTableone').DataTable({
+                 responsive: true,
+                 'iDisplayLength': 5,
+             });
+         })
 
 
+</script>
 
 
 }

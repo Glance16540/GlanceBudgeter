@@ -1,5 +1,6 @@
 ﻿ @model GlanceBudgeter.Models.CodeFirst.Household
 @using Microsoft.AspNet.Identity
+@{var user = User.Identity.GetUserId(); }
  <!-- DataTables -->
 <link href="~/assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" />
@@ -30,32 +31,31 @@
             <div class="col-xs-6">
                 <h4>My Accounts</h4>
 
+                <table class="table">
+                    <tr>
+
+                        <th>
+                            Account Type
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Balance
+                        </th>
+                        <th>
+                            Opened
+                        </th>
+                     
+
+                        <th></th>
+                    </tr>
+
+                    @foreach (var account in Model.Account.Where(u => u.HouseholdId == u.HouseHold.Id))
+                    {
 
 
-                @foreach (var account in Model.Account.Where(u => u.HouseholdId == u.HouseHold.Id))
-                {
-                    <table class="table">
-                        <tr>
 
-
-                            <th>
-                                Account Type
-                            </th>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Balance
-                            </th>
-                            <th>
-                                Opened
-                            </th>
-                            @*<th>
-                                    @Html.DisplayNameFor(model => model.Closed)
-                                </th>*@
-
-                            <th></th>
-                        </tr>
 
 
                         <tr>
@@ -72,23 +72,24 @@
                             <td>
                                 @account.Opened
                             </td>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.Closed)
-                                </td>*@
+                          
 
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = account.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = account.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = account.Id })
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = Model.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
                             </td>
                         </tr>
 
 
-                    </table>
 
-                }
 
-            </div>
+                    }
+                </table>
+
+                    </div>
+
+
 
 
 
@@ -117,10 +118,10 @@
 
                 <ul class="nav nav-tabs">
                     <li role="presentation" class="active">
-                        <a href="#home1" role="tab" data-toggle="tab">Home</a>
+                        <a href="#home1" role="tab" data-toggle="tab">Expense</a>
                     </li>
                     <li role="presentation">
-                        <a href="#profile1" role="tab" data-toggle="tab">Profile</a>
+                        <a href="#profile1" role="tab" data-toggle="tab">Income</a>
                     </li>
                     
                 </ul>
@@ -134,7 +135,7 @@
 
                             </div>
 
-                            <h4 class="header-title m-t-0 m-b-30">Default Example</h4>
+                            <h4 class="header-title m-t-0 m-b-30">Expense Transactions</h4>
 
                             <table id="datatable" class="table table-striped table-bordered">
                                 <thead>
@@ -149,7 +150,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach (var accone in Model.Transactions.Where(t => t.AuthorId == t.Accounts.OwnerId).Where(t => t.Category.Id == 1))
+                                    @foreach (var accone in Model.Transactions.Where(a => a.CategoryId == 3))
                                     {
                                         <tr>
                                             <td>@accone.Name</td>
@@ -157,7 +158,7 @@
                                             <td>@accone.Category.Name</td>
                                             <td>@accone.Amount</td>
                                             <td>@accone.Created</td>
-                                            <td>@accone.Accounts.Name</td>
+                                            <td></td>
                                         </tr>
 
 
@@ -198,56 +199,30 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Created</th>
+                                <th>Account </th>
                             </tr>
                         </thead>
 
                         <tbody>
+                            @foreach (var income in Model.Transactions.Where(a=>a.CategoryId == 4))
+                            {
+                                <tr>
+                                    <td>@income.Name</td>
+                                    <td>@income.Description</td>
+                                    <td>@income.Category.Name</td>
+                                    <td>@income.Created</td>
+                                    <td>@income.Accounts.Name</td>
+                                  
+                                </tr>
 
-                            <tr>
-                                <td>Lael Greer</td>
-                                <td>Systems Administrator</td>
-                                <td>London</td>
-                                <td>21</td>
-                                <td>2009/02/27</td>
-                                <td>$103,500</td>
-                            </tr>
-                            <tr>
-                                <td>Jonas Alexander</td>
-                                <td>Developer</td>
-                                <td>San Francisco</td>
-                                <td>30</td>
-                                <td>2010/07/14</td>
-                                <td>$86,500</td>
-                            </tr>
-                            <tr>
-                                <td>Shad Decker</td>
-                                <td>Regional Director</td>
-                                <td>Edinburgh</td>
-                                <td>51</td>
-                                <td>2008/11/13</td>
-                                <td>$183,000</td>
-                            </tr>
-                            <tr>
-                                <td>Michael Bruce</td>
-                                <td>Javascript Developer</td>
-                                <td>Singapore</td>
-                                <td>29</td>
-                                <td>2011/06/27</td>
-                                <td>$183,000</td>
-                            </tr>
-                            <tr>
-                                <td>Donna Snider</td>
-                                <td>Customer Support</td>
-                                <td>New York</td>
-                                <td>27</td>
-                                <td>2011/01/25</td>
-                                <td>$112,000</td>
-                            </tr>
+
+                            }
+                           
+                           
                         </tbody>
                     </table>
                 </div>
